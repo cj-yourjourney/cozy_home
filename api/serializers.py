@@ -64,10 +64,16 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = "__all__"
 
+class BookedDateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookedDate
+        fields = "__all__"
+
 
 class OrderSerializer(serializers.ModelSerializer):
     orderItems = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
+    bookedDates = serializers.SerializerMethodField(read_only=True) 
 
     class Meta:
         model = Order
@@ -81,4 +87,9 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_user(self, obj):
         user = obj.user
         serializer = UserSerializer(user, many=False)
+        return serializer.data
+    
+    def get_bookedDates(self, obj):
+        dates = obj.bookeddate_set.all()
+        serializer = BookedDateSerializer(dates, many=True)
         return serializer.data

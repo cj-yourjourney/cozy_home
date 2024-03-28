@@ -8,6 +8,7 @@ import ProfileUpdateScreen from "./screens/ProfileUpdateScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import ReviewScreen from "./screens/ReviewScreen";
+import MyOrdersScreen from "./screens/MyOrderScreen";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import {Container} from 'react-bootstrap'
@@ -27,6 +28,8 @@ function App() {
 
             <Route path="/register/" element={<RegisterScreen />} />
             <Route path="/login/" element={<LoginScreen />} />
+            <Route path="/myorders/" element={<MyOrdersScreen />} />
+
             <Route path="/profile/" element={<ProfileScreen />} />
             <Route path="/profile/update/" element={<ProfileUpdateScreen />} />
           </Routes>

@@ -62,6 +62,10 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     # connect to Order Model:
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    # New fields for check-in and check-out dates
+    check_in_date = models.DateField(null=True, blank=True)
+    check_out_date = models.DateField(null=True, blank=True)
+
     name = models.CharField(max_length=200, null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     _id = models.AutoField(primary_key=True, editable=False)

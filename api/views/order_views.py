@@ -15,22 +15,41 @@ def addOrderItems(request):
     user = request.user
     data = request.data
 
-    booked_dates = data["bookedDates"]
-    total_price = data["totalPrice"]
+    # Extract order items and total price from the request data
+    order_items_data = data.get("orderItems", [])
+    total_price = data.get("totalPrice", "0.00")
 
-    # 1) create a new order
-    order = Order.objects.create(user=user, totalPrice=total_price)
+    # Create an order
+    order = Order.objects.create(totalPrice=total_price,
+                                 user=user
+                                 )
 
-    # 2) create booked date and set order to bookedDate relationship
-    for booked_date in booked_dates:
-        product = Product.objects.get(id=booked_date["id"])
+    # Create order items
+    for order_item_data in order_items_data:
+        order_item = OrderItem.objects.create(
+            product_id=order_item_data["id"],
+            order=order,
+            name=order_item_data["name"],
+            price=order_item_data["price"],
+            check_in_date=order_item_data["checkInDate"],
+            check_out_date=order_item_data["checkOutDate"],
+            # You may want to handle 'datesInRange' and 'totalNight' differently
+            # based on your requirements
+        )
 
-        for date_str in booked_date["dates"]:
-            date_instance = datetime.strptime(date_str, "%Y-%m-%d").date()
-
-            date_obj = BookedDate.objects.create(
-                date=date_instance, order=order, product=product
-            )
-
+    # Serialize the order and return the response
     serializer = OrderSerializer(order, many=False)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_orders(request):
+    user = request.user 
+    # Retrieve all orders for the current user
+    orders = user.order_set.all()
+
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

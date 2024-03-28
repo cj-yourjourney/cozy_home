@@ -49,3 +49,13 @@ main{
 .product-details-container .add-to-cart-btn {
   margin-top: 10px;
 }
+
+/* CustomDatePicker.css */
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+}

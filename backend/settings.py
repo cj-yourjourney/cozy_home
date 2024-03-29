@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "https://cozy-home-3031533847cc.herokuapp.com",
+    "cozy-home-3031533847cc.herokuapp.com",
 ]
 
 AUTHENTICATION_BACKENDS = ["api.authentication.EmailorUsernameModelBackend"]
